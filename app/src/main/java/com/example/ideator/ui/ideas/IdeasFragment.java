@@ -58,16 +58,14 @@ public class IdeasFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyIdeasRecyclerViewAdapter(PlaceholderContent.ITEMS));
+        RecyclerView recyclerView = view.findViewById(R.id.list_ideas);
+        Context context = recyclerView.getContext();
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
+        recyclerView.setAdapter(new MyIdeasRecyclerViewAdapter(PlaceholderContent.ITEMS));
 
         //Set the add button listener
         View buttonAddIdea = view.findViewById(R.id.button_add_idea);
