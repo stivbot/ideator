@@ -72,7 +72,7 @@ public class IdeasFragment extends Fragment {
         buttonAddIdea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "New idea button triggered", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
