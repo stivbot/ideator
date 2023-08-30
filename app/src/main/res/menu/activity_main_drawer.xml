@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_menu_bulb"
             android:title="@string/menu_bashboard" />
         <item
+            android:id="@+id/nav_ideas"
+            android:icon="@drawable/ic_menu_bulb"
+            android:title="@string/menu_ideas" />
+        <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_profile"
             android:title="@string/menu_profile" />
