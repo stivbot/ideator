@@ -1,16 +1,16 @@
-package com.example.ideator.ui.ideas;
+package com.example.ideator.ui.dashboard;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class IdeasViewModel extends ViewModel {
+public class DashboardViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public IdeasViewModel() {
+    public DashboardViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is ideas fragment");
+        mText.setValue("This is dashboard fragment");
     }
 
     public LiveData<String> getText() {

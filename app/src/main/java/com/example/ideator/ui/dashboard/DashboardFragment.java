@@ -1,4 +1,4 @@
-package com.example.ideator.ui.ideas;
+package com.example.ideator.ui.dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ideator.databinding.FragmentIdeasBinding;
+import com.example.ideator.databinding.FragmentDashboardBinding;
 
-public class IdeasFragment extends Fragment {
+public class DashboardFragment extends Fragment {
 
-    private FragmentIdeasBinding binding;
+    private FragmentDashboardBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        IdeasViewModel ideasViewModel =
-                new ViewModelProvider(this).get(IdeasViewModel.class);
+        DashboardViewModel dashboardViewModel =
+                new ViewModelProvider(this).get(DashboardViewModel.class);
 
-        binding = FragmentIdeasBinding.inflate(inflater, container, false);
+        binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textIdeas;
-        ideasViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textDashboard;
+        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
