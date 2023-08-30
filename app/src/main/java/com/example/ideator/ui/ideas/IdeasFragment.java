@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.ideator.R;
 import com.example.ideator.ui.ideas.placeholder.PlaceholderContent;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A fragment representing a list of Items.
@@ -67,6 +68,17 @@ public class IdeasFragment extends Fragment {
             }
             recyclerView.setAdapter(new MyIdeasRecyclerViewAdapter(PlaceholderContent.ITEMS));
         }
+
+        //Set the add button listener
+        View buttonAddIdea = view.findViewById(R.id.button_add_idea);
+        buttonAddIdea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
         return view;
     }
 }
