@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:textStyle="bold"
+        android:text="This is a simple title"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/item_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_below="@+id/item_name"
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:text="This is a really really long description. The objective is to check the list behavious with a long text."
         android:textAppearance="?attr/textAppearanceListItem" />
 
-</LinearLayout>
+</RelativeLayout>

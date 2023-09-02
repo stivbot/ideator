@@ -12,11 +12,11 @@ import com.example.ideator.model.idea.IdeaWithSections;
 
 import java.util.List;
 
-public class IdeaViewModel extends AndroidViewModel {
+public class IdeasViewModel extends AndroidViewModel {
     private IdeaRepository repository;
     private LiveData<List<IdeaWithSections>> ideas;
 
-    public IdeaViewModel(@NonNull Application application) {
+    public IdeasViewModel(@NonNull Application application) {
         super(application);
         repository = new IdeaRepository(application);
         ideas = repository.getAll();
