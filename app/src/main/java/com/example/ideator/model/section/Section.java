@@ -1,7 +1,11 @@
 package com.example.ideator.model.section;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import com.example.ideator.model.idea.Idea;
 
 @Entity(tableName = "section_table")
 public class Section {
@@ -10,6 +14,8 @@ public class Section {
     private int id;
     private String title;
     private String description;
+    @ColumnInfo(name = "idea_id")
+    private int ideaId;
 
     public Section(String title, String description) {
         this.title = title;
@@ -38,5 +44,13 @@ public class Section {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getIdeaId() {
+        return ideaId;
+    }
+
+    public void setIdeaId(int ideaId) {
+        this.ideaId = ideaId;
     }
 }

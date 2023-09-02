@@ -2,9 +2,11 @@ package com.example.ideator.model.idea;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -14,10 +16,10 @@ public interface IdeaDao {
     @Insert
     void insert(Idea idea);
 
-    @Insert
+    @Update
     void update(Idea idea);
 
-    @Insert
+    @Delete
     void delete(Idea idea);
 
     @Transaction

@@ -13,7 +13,7 @@ public class IdeaWithSections {
     @Embedded
     public Idea idea;
 
-    @Relation(parentColumn = "id", entityColumn = "id")
+    @Relation(parentColumn = "id", entityColumn = "idea_id", entity = Section.class)
     public List<Section> sections;
 
     public IdeaWithSections(Idea idea) {

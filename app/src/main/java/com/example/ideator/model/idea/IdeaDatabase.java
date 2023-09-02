@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.ideator.model.section.Section;
 
-@Database(entities = {Idea.class, Section.class}, version = 1)
+@Database(entities = {Idea.class, Section.class}, version = 2)
 public abstract class IdeaDatabase extends RoomDatabase {
 
     private static IdeaDatabase instance;

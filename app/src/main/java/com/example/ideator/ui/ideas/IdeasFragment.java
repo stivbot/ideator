@@ -1,5 +1,6 @@
 package com.example.ideator.ui.ideas;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Context;
@@ -30,7 +31,8 @@ import java.util.List;
  * A fragment representing a list of Items.
  */
 public class IdeasFragment extends Fragment {
-    public static final int EDIT_IDEA_REQUEST = 1;
+    public static final int ADD_IDEA_REQUEST = 1;
+    public static final int EDIT_IDEA_REQUEST = 2;
     private IdeasViewModel ideaViewModel;
 
     /**
@@ -72,6 +74,17 @@ public class IdeasFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
+                startActivityForResult(intent, ADD_IDEA_REQUEST);
+            }
+        });
+
+        ideaAdapter.setOnItemClickListener(new IdeasAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(IdeaWithSections idea) {
+                Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
+                intent.putExtra(EditIdeaActivity.EXTRA_ID, idea.idea.getId());
+                intent.putExtra(EditIdeaActivity.EXTRA_TITLE, idea.idea.getTitle());
+                intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, idea.idea.getDescription());
                 startActivityForResult(intent, EDIT_IDEA_REQUEST);
             }
         });
@@ -83,19 +96,50 @@ public class IdeasFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EDIT_IDEA_REQUEST && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(EditIdeaActivity.EXTRA_TITLE);
-            String description = data.getStringExtra(EditIdeaActivity.EXTRA_DESCRIPTION);
-
-            Idea idea = new Idea(title, description);
-            ideaViewModel.insert(idea);
-
-            /*Snackbar.make(this, "New idea button triggered", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();*/
-            Toast.makeText(getActivity(), "Idea saved", Toast.LENGTH_SHORT).show();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ADD_IDEA_REQUEST) {
+                add(data);
+            }
+            else if (requestCode == EDIT_IDEA_REQUEST) {
+                edit(data);
+            }
         }
-        else {
-            Toast.makeText(getActivity(), "Idea not saved", Toast.LENGTH_SHORT).show();
+        else if (resultCode == RESULT_CANCELED) {
+            delete(data);
         }
+    }
+
+    private void add(Intent data) {
+        String title = data.getStringExtra(EditIdeaActivity.EXTRA_TITLE);
+        String description = data.getStringExtra(EditIdeaActivity.EXTRA_DESCRIPTION);
+        Idea idea = new Idea(title, description);
+        ideaViewModel.insert(idea);
+        Toast.makeText(getActivity(), "Idea saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void edit(Intent data) {
+        int id = data.getIntExtra(EditIdeaActivity.EXTRA_ID, EditIdeaActivity.INVALID_ID);
+        if (id == EditIdeaActivity.INVALID_ID) {
+            Toast.makeText(getActivity(), "Could not save the idea. Something went wrong.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String title = data.getStringExtra(EditIdeaActivity.EXTRA_TITLE);
+        String description = data.getStringExtra(EditIdeaActivity.EXTRA_DESCRIPTION);
+        Idea idea = new Idea(title, description);
+        idea.setId(id);
+        ideaViewModel.update(idea);
+        Toast.makeText(getActivity(), "Idea saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void delete(Intent data) {
+        int id = data.getIntExtra(EditIdeaActivity.EXTRA_ID, EditIdeaActivity.INVALID_ID);
+        if (id == EditIdeaActivity.INVALID_ID) {
+            Toast.makeText(getActivity(), "Could not delete the idea. Something went wrong.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Idea idea = new Idea(null, null);
+        idea.setId(id);
+        ideaViewModel.delete(idea);
+        Toast.makeText(getActivity(), "Idea deleted", Toast.LENGTH_SHORT).show();
     }
 }
