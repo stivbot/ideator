@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,15 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.ideator.R;
+import com.example.ideator.model.idea.IdeaWithSections;
 import com.example.ideator.ui.ideas.placeholder.PlaceholderContent;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  */
 public class IdeasFragment extends Fragment {
+    private IdeaViewModel ideaViewModel;
+
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -46,6 +54,15 @@ public class IdeasFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ideaViewModel = new ViewModelProvider(this).get(IdeaViewModel.class);
+        ideaViewModel.getAll().observe(this, new Observer<List<IdeaWithSections>>() {
+            @Override
+            public void onChanged(List<IdeaWithSections> ideaWithSections) {
+                //Update RecyclerView
+                Toast.makeText(getActivity(), "onChanged", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);

@@ -1,10 +1,12 @@
-package com.example.ideator.model;
+package com.example.ideator.model.data;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ideator.model.idea.Idea;
+import com.example.ideator.model.organization.Organization;
 import com.google.gson.Gson;
 
 import java.io.Serializable;

@@ -1,17 +1,20 @@
-package com.example.ideator.model;
+package com.example.ideator.model.idea;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "idea_table")
 public class Idea {
 
     public static String DEFAULT_TITLE = "My concept";
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String title;
     private String description;
-    private List<Section> sections;
 
+    @Ignore
     public Idea(String description) {
         this(Idea.DEFAULT_TITLE, description);
     }
@@ -19,7 +22,14 @@ public class Idea {
     public Idea(String title, String description) {
         this.title = title;
         this.description = description;
-        this.sections = new ArrayList<Section>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -36,9 +46,5 @@ public class Idea {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Section> getSections() {
-        return sections;
     }
 }
