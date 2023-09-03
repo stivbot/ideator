@@ -96,16 +96,18 @@ public class IdeasFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == ADD_IDEA_REQUEST) {
+        if (requestCode == ADD_IDEA_REQUEST) {
+            if (resultCode == RESULT_OK) {
                 add(data);
             }
-            else if (requestCode == EDIT_IDEA_REQUEST) {
+        }
+        else if (requestCode == EDIT_IDEA_REQUEST) {
+            if (resultCode == RESULT_OK) {
                 edit(data);
             }
-        }
-        else if (resultCode == RESULT_CANCELED) {
-            delete(data);
+            else if (resultCode == EditIdeaActivity.RESULT_DELETE) {
+                delete(data);
+            }
         }
     }
 

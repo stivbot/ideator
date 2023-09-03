@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.example.ideator.R;
 
 public class EditIdeaActivity extends AppCompatActivity {
+    public static final int RESULT_DELETE = 1;
     public static final int INVALID_ID = -1;
     public static final String EXTRA_ID = "com.example.ideator.ui.edit_idea.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.example.ideator.ui.edit_idea.EXTRA_TITLE";
@@ -63,6 +64,10 @@ public class EditIdeaActivity extends AppCompatActivity {
         String title = titleText.getText().toString();
         String description = descriptionText.getText().toString();
 
+        if (title.trim().isEmpty() && description.trim().isEmpty()) {
+            finish();
+        }
+
         Intent data = new Intent();
         int id = getIntent().getIntExtra(EXTRA_ID, INVALID_ID);
         if (id != INVALID_ID) {
@@ -81,7 +86,7 @@ public class EditIdeaActivity extends AppCompatActivity {
         if (id != INVALID_ID) {
             data.putExtra(EXTRA_ID, id);
         }
-        setResult(RESULT_CANCELED, data);
+        setResult(RESULT_DELETE, data);
         finish();
     }
 }
