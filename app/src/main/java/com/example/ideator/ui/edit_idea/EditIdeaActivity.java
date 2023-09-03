@@ -36,11 +36,11 @@ public class EditIdeaActivity extends AppCompatActivity {
         if (intent.hasExtra(EXTRA_ID)) {
             setTitle("Edit idea");
             titleText.setText(intent.getStringExtra(EXTRA_TITLE));
-            descriptionText.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
         }
         else {
             setTitle("New idea");
         }
+        descriptionText.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
     }
 
     @Override
@@ -93,9 +93,7 @@ public class EditIdeaActivity extends AppCompatActivity {
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
             //Nothing to do
         });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.create().show();
     }
 
     private void deleteIdea() {

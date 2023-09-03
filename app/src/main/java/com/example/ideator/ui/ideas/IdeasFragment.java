@@ -4,10 +4,12 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ideator.R;
@@ -73,8 +76,21 @@ public class IdeasFragment extends Fragment {
         buttonAddIdea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
-                startActivityForResult(intent, ADD_IDEA_REQUEST);
+                final EditText descriptionText = new EditText(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("New idea");
+                builder.setMessage("Describe your idea in a short sentence");
+                builder.setView(descriptionText);
+                builder.setPositiveButton("Create", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
+                    //TODO add ChatGPT call
+                    Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
+                    intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, descriptionText.getText().toString());
+                    startActivityForResult(intent, ADD_IDEA_REQUEST);
+                });
+                builder.setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
+                    //Nothing to do
+                });
+                builder.create().show();
             }
         });
 
