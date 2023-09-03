@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ideator.R;
@@ -64,10 +65,15 @@ public class IdeasFragment extends Fragment {
 
         //Set the view model
         ideaViewModel = new ViewModelProvider(this).get(IdeasViewModel.class);
-        ideaViewModel.getAll().observe(getActivity(), new Observer<List<IdeaWithSections>>() {
-            @Override
-            public void onChanged(List<IdeaWithSections> ideas) {
-                ideaAdapter.setIdeas(ideas);
+        ideaViewModel.getAll().observe(getActivity(), ideas -> {
+            ideaAdapter.setIdeas(ideas);
+
+            TextView emptyText = view.findViewById(R.id.text_ideas);
+            if (ideas.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            }
+            else {
+                emptyText.setVisibility(View.INVISIBLE);
             }
         });
 
