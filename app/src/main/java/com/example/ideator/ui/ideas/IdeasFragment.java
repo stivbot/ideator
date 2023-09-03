@@ -23,10 +23,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ideator.BuildConfig;
 import com.example.ideator.R;
 import com.example.ideator.model.idea.Idea;
 import com.example.ideator.model.idea.IdeaWithSections;
 import com.example.ideator.ui.edit_idea.EditIdeaActivity;
+import com.example.ideator.utils.openai.Assistant;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -89,6 +91,20 @@ public class IdeasFragment extends Fragment {
                 builder.setView(descriptionText);
                 builder.setPositiveButton("Create", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
                     //TODO add ChatGPT call
+                    Assistant.BUSINESS_PLANNING_EXPERT.answer(
+                            "Identify the problems and solutions of this business idea: " + descriptionText.getText().toString(),
+                            new Assistant.OnResponse() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    System.out.println(response);
+                                }
+
+                                @Override
+                                public void onError(Throwable error) {
+                                    System.out.println(error);
+                                }
+                            });
+
                     Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
                     intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, descriptionText.getText().toString());
                     startActivityForResult(intent, ADD_IDEA_REQUEST);
