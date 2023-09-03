@@ -1,8 +1,10 @@
 package com.example.ideator.ui.edit_idea;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -51,7 +53,7 @@ public class EditIdeaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_idea_button) {
-            deleteIdea();
+            confirmDeleteIdea();
             return true;
         }
         else {
@@ -80,7 +82,24 @@ public class EditIdeaActivity extends AppCompatActivity {
         finish();
     }
 
+    private void confirmDeleteIdea() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Delete");
+        builder.setMessage("Are you sure you when to delete the idea? This action cannot be reversed!");
+        builder.setPositiveButton("Confirm", (dialog, which) -> {
+            deleteIdea();
+        });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+            //Nothing to do
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void deleteIdea() {
+
         Intent data = new Intent();
         int id = getIntent().getIntExtra(EXTRA_ID, INVALID_ID);
         if (id != INVALID_ID) {
