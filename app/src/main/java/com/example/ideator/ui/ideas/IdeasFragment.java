@@ -1,6 +1,5 @@
 package com.example.ideator.ui.ideas;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,15 +21,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ideator.BuildConfig;
 import com.example.ideator.R;
 import com.example.ideator.model.idea.Idea;
 import com.example.ideator.model.idea.IdeaWithSections;
 import com.example.ideator.ui.edit_idea.EditIdeaActivity;
 import com.example.ideator.utils.openai.Assistant;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -90,24 +84,20 @@ public class IdeasFragment extends Fragment {
                 builder.setMessage("Describe your idea in a short sentence");
                 builder.setView(descriptionText);
                 builder.setPositiveButton("Create", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
-                    //TODO add ChatGPT call
-                    Assistant.BUSINESS_PLANNING_EXPERT.answer(
-                            "Identify the problems and solutions of this business idea: " + descriptionText.getText().toString(),
+                    Assistant.BUSINESS_PLANNING_EXPERT.getDescriptionProblematicSolution(
+                            getActivity(),
+                            descriptionText.getText().toString(),
                             new Assistant.OnResponse() {
                                 @Override
                                 public void onSuccess(String response) {
-                                    System.out.println(response);
+                                    editIdea(response);
                                 }
 
                                 @Override
                                 public void onError(Throwable error) {
-                                    System.out.println(error);
+                                    editIdea(descriptionText.getText().toString());
                                 }
                             });
-
-                    Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
-                    intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, descriptionText.getText().toString());
-                    startActivityForResult(intent, ADD_IDEA_REQUEST);
                 });
                 builder.setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
                     //Nothing to do
@@ -128,6 +118,12 @@ public class IdeasFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void editIdea(String description) {
+        Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
+        intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, description);
+        startActivityForResult(intent, ADD_IDEA_REQUEST);
     }
 
     @Override

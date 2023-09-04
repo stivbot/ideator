@@ -15,7 +15,7 @@ public class Conversation extends ArrayList<Message> {
         this.add(Message.assistantMessage(message));
     }
 
-    public void addSUserMessage(String message) {
+    public void addUserMessage(String message) {
         this.add(Message.userMessage(message));
     }
 }
