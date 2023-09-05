@@ -2,6 +2,7 @@ package com.example.ideator.ui.ideas;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -84,20 +85,33 @@ public class IdeasFragment extends Fragment {
                 builder.setMessage("Describe your idea in a short sentence");
                 builder.setView(descriptionText);
                 builder.setPositiveButton("Create", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
-                    Assistant.BUSINESS_PLANNING_EXPERT.getDescriptionProblematicSolution(
-                            getActivity(),
-                            descriptionText.getText().toString(),
-                            new Assistant.OnResponse() {
-                                @Override
-                                public void onSuccess(String response) {
-                                    editIdea(response);
-                                }
+                    ProgressDialog progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage("Enhancing your business idea...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.setInverseBackgroundForced(false);
 
-                                @Override
-                                public void onError(Throwable error) {
-                                    editIdea(descriptionText.getText().toString());
-                                }
-                            });
+                    Assistant.BUSINESS_PLANNING_EXPERT.getDescriptionProblematicSolution(
+                        getActivity(),
+                        descriptionText.getText().toString(),
+                        new Assistant.OnResponse() {
+                            @Override
+                            public void onSuccess(String response) {
+                                progressDialog.hide();
+                                editIdea(response);
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                error.printStackTrace();
+                                Toast.makeText(getActivity(),
+                                        "Something went wrong. Are you connected to the internet?",
+                                        Toast.LENGTH_LONG).show();
+
+                                progressDialog.hide();
+                                editIdea(descriptionText.getText().toString());
+                            }
+                        });
+                    progressDialog.show();
                 });
                 builder.setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
                     //Nothing to do

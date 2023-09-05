@@ -1,11 +1,15 @@
 package com.example.ideator.utils.openai;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.example.ideator.model.idea.IdeaWithSections;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class Assistant {
@@ -21,17 +25,29 @@ public class Assistant {
 
     private void answer(String message, final OnResponse onResponse) {
         conversation.addUserMessage(message);
-        new OpenAi(conversation,
-                response -> {
-                    String response_message = response.choices().get(0).message().content();
-                    conversation.addAssistantMessage(response_message);
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            //Background work
+            new OpenAi(response -> {
+                String response_message = response.choices().get(0).message().content();
+                conversation.addAssistantMessage(response_message);
+
+                handler.post(() -> {
+                    //UI Thread work
                     onResponse.onSuccess(response_message);
-                },
-                error -> {
+                });
+            },
+            error -> {
+                handler.post(() -> {
+                    //UI Thread work
                     onResponse.onError(error);
-                })
-                .execute();
+                });
+            })
+            .chat(conversation);
+        });
     }
 
     public void getDescriptionProblematicSolution(Context context, String shortDescription, final OnResponse onResponse) {
