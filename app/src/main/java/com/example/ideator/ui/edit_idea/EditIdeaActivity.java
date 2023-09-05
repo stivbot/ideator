@@ -20,6 +20,8 @@ public class EditIdeaActivity extends AppCompatActivity {
     public static final String EXTRA_ID = "com.example.ideator.ui.edit_idea.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.example.ideator.ui.edit_idea.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "com.example.ideator.ui.edit_idea.EXTRA_DESCRIPTION";
+    public static final String EXTRA_PROBLEMATIC = "com.example.ideator.ui.edit_idea.EXTRA_PROBLEMATIC";
+    public static final String EXTRA_SOLUTION = "com.example.ideator.ui.edit_idea.EXTRA_SOLUTION";
 
     private EditText titleText;
     private EditText descriptionText;
@@ -35,11 +37,11 @@ public class EditIdeaActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_ID)) {
             setTitle("Edit idea");
-            titleText.setText(intent.getStringExtra(EXTRA_TITLE));
         }
         else {
             setTitle("New idea");
         }
+        titleText.setText(intent.getStringExtra(EXTRA_TITLE));
         descriptionText.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
     }
 

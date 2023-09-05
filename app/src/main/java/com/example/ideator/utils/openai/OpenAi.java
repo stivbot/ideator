@@ -1,19 +1,14 @@
 package com.example.ideator.utils.openai;
 
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
-
 import com.example.ideator.BuildConfig;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import dev.ai4j.openai4j.Model;
 import dev.ai4j.openai4j.OpenAiClient;
 import dev.ai4j.openai4j.chat.ChatCompletionRequest;
 import dev.ai4j.openai4j.chat.ChatCompletionResponse;
+import dev.ai4j.openai4j.chat.Function;
 
 
 public class OpenAi {
@@ -33,11 +28,16 @@ public class OpenAi {
     }
 
     protected void chat(Conversation conversation) {
+        this.chat(conversation, null);
+    }
+
+    protected void chat(Conversation conversation, Function function) {
         ChatCompletionRequest request = ChatCompletionRequest.builder()
                 .model(MODEL)
                 .maxTokens(MAX_TOKENS)
                 .temperature(TEMPERATURE)
                 .messages(conversation)
+                .functions(function)
                 .build();
 
         client.chatCompletion(request)

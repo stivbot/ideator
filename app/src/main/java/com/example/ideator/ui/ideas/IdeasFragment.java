@@ -26,7 +26,7 @@ import com.example.ideator.R;
 import com.example.ideator.model.idea.Idea;
 import com.example.ideator.model.idea.IdeaWithSections;
 import com.example.ideator.ui.edit_idea.EditIdeaActivity;
-import com.example.ideator.utils.openai.Assistant;
+import com.example.ideator.utils.openai.BusinessPlanningAssistant;
 
 /**
  * A fragment representing a list of Items.
@@ -90,14 +90,14 @@ public class IdeasFragment extends Fragment {
                     progressDialog.setCancelable(false);
                     progressDialog.setInverseBackgroundForced(false);
 
-                    Assistant.BUSINESS_PLANNING_EXPERT.getDescriptionProblematicSolution(
+                    new BusinessPlanningAssistant().getTitleDescriptionProblematicSolution(
                         getActivity(),
                         descriptionText.getText().toString(),
-                        new Assistant.OnResponse() {
+                        new BusinessPlanningAssistant.OnResponse() {
                             @Override
-                            public void onSuccess(String response) {
+                            public void onSuccess(String title, String description, String problematic, String solution) {
                                 progressDialog.hide();
-                                editIdea(response);
+                                editIdea(title, description, problematic, solution);
                             }
 
                             @Override
@@ -108,7 +108,7 @@ public class IdeasFragment extends Fragment {
                                         Toast.LENGTH_LONG).show();
 
                                 progressDialog.hide();
-                                editIdea(descriptionText.getText().toString());
+                                editIdea(null, descriptionText.getText().toString(), null, null);
                             }
                         });
                     progressDialog.show();
@@ -134,9 +134,16 @@ public class IdeasFragment extends Fragment {
         return view;
     }
 
-    private void editIdea(String description) {
+    private void editIdea(String title, String description, String problematic, String solution) {
+        System.out.println(title);
+        System.out.println(description);
+        System.out.println(problematic);
+        System.out.println(solution);
         Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
+        intent.putExtra(EditIdeaActivity.EXTRA_TITLE, title);
         intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, description);
+        intent.putExtra(EditIdeaActivity.EXTRA_PROBLEMATIC, problematic);
+        intent.putExtra(EditIdeaActivity.EXTRA_SOLUTION, solution);
         startActivityForResult(intent, ADD_IDEA_REQUEST);
     }
 
