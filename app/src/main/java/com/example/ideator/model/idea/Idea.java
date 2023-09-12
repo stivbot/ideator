@@ -10,7 +10,7 @@ public class Idea {
     public static String DEFAULT_TITLE = "My concept";
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String title;
     private String description;
 
@@ -24,11 +24,11 @@ public class Idea {
         this.description = description;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

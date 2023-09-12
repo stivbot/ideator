@@ -1,4 +1,4 @@
-package com.example.ideator.ui.ideas;
+package com.example.ideator.ui.edit_idea;
 
 import android.app.Application;
 
@@ -10,20 +10,12 @@ import com.example.ideator.model.idea.Idea;
 import com.example.ideator.model.idea.IdeaRepository;
 import com.example.ideator.model.idea.IdeaWithSections;
 
-import java.util.List;
+public class EditIdeaViewModel extends AndroidViewModel {
+    private final IdeaRepository repository;
 
-public class IdeasViewModel extends AndroidViewModel {
-    private IdeaRepository repository;
-    private LiveData<List<IdeaWithSections>> ideas;
-
-    public IdeasViewModel(@NonNull Application application) {
+    public EditIdeaViewModel(@NonNull Application application) {
         super(application);
         repository = new IdeaRepository(application);
-        ideas = repository.getAll();
-    }
-
-    public void insert(Idea idea, IdeaRepository.OnInsertResponse onResponse) {
-        repository.insert(idea, onResponse);
     }
 
     public void update(Idea idea) {
@@ -34,7 +26,7 @@ public class IdeasViewModel extends AndroidViewModel {
         repository.delete(idea);
     }
 
-    public LiveData<List<IdeaWithSections>> getAll() {
-        return ideas;
+    public LiveData<IdeaWithSections> get(long id) {
+        return repository.get(id);
     }
 }

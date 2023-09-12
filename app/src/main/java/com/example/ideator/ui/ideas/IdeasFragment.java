@@ -32,8 +32,7 @@ import com.example.ideator.utils.openai.BusinessPlanningAssistant;
  * A fragment representing a list of Items.
  */
 public class IdeasFragment extends Fragment {
-    public static final int ADD_IDEA_REQUEST = 1;
-    public static final int EDIT_IDEA_REQUEST = 2;
+    public static final int EDIT_IDEA_REQUEST = 1;
     private IdeasViewModel ideaViewModel;
 
     /**
@@ -97,7 +96,10 @@ public class IdeasFragment extends Fragment {
                             @Override
                             public void onSuccess(String title, String description, String problematic, String solution) {
                                 progressDialog.hide();
-                                editIdea(title, description, problematic, solution);
+                                Idea idea = new Idea(title, description);
+                                ideaViewModel.insert(idea, id -> {
+                                    openEditIdeaActivity(id);
+                                });
                             }
 
                             @Override
@@ -108,7 +110,10 @@ public class IdeasFragment extends Fragment {
                                         Toast.LENGTH_LONG).show();
 
                                 progressDialog.hide();
-                                editIdea(null, descriptionText.getText().toString(), null, null);
+                                Idea idea = new Idea(descriptionText.getText().toString());
+                                ideaViewModel.insert(idea, id -> {
+                                    openEditIdeaActivity(id);
+                                });
                             }
                         });
                     progressDialog.show();
@@ -123,76 +128,25 @@ public class IdeasFragment extends Fragment {
         ideaAdapter.setOnItemClickListener(new IdeasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(IdeaWithSections idea) {
-                Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
-                intent.putExtra(EditIdeaActivity.EXTRA_ID, idea.idea.getId());
-                intent.putExtra(EditIdeaActivity.EXTRA_TITLE, idea.idea.getTitle());
-                intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, idea.idea.getDescription());
-                startActivityForResult(intent, EDIT_IDEA_REQUEST);
+                openEditIdeaActivity(idea.idea.getId());
             }
         });
 
         return view;
     }
 
-    private void editIdea(String title, String description, String problematic, String solution) {
+    private void openEditIdeaActivity(long id) {
         Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
-        intent.putExtra(EditIdeaActivity.EXTRA_TITLE, title);
-        intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, description);
-        intent.putExtra(EditIdeaActivity.EXTRA_PROBLEMATIC, problematic);
-        intent.putExtra(EditIdeaActivity.EXTRA_SOLUTION, solution);
-        startActivityForResult(intent, ADD_IDEA_REQUEST);
+        intent.putExtra(EditIdeaActivity.EXTRA_ID, id);
+        startActivityForResult(intent, EDIT_IDEA_REQUEST);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_IDEA_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                add(data);
-            }
+        if (resultCode != RESULT_OK) {
+            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
         }
-        else if (requestCode == EDIT_IDEA_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                edit(data);
-            }
-            else if (resultCode == EditIdeaActivity.RESULT_DELETE) {
-                delete(data);
-            }
-        }
-    }
-
-    private void add(Intent data) {
-        String title = data.getStringExtra(EditIdeaActivity.EXTRA_TITLE);
-        String description = data.getStringExtra(EditIdeaActivity.EXTRA_DESCRIPTION);
-        Idea idea = new Idea(title, description);
-        ideaViewModel.insert(idea);
-        Toast.makeText(getActivity(), "Idea saved", Toast.LENGTH_SHORT).show();
-    }
-
-    private void edit(Intent data) {
-        int id = data.getIntExtra(EditIdeaActivity.EXTRA_ID, EditIdeaActivity.INVALID_ID);
-        if (id == EditIdeaActivity.INVALID_ID) {
-            Toast.makeText(getActivity(), "Could not save the idea. Something went wrong.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String title = data.getStringExtra(EditIdeaActivity.EXTRA_TITLE);
-        String description = data.getStringExtra(EditIdeaActivity.EXTRA_DESCRIPTION);
-        Idea idea = new Idea(title, description);
-        idea.setId(id);
-        ideaViewModel.update(idea);
-        Toast.makeText(getActivity(), "Idea saved", Toast.LENGTH_SHORT).show();
-    }
-
-    private void delete(Intent data) {
-        int id = data.getIntExtra(EditIdeaActivity.EXTRA_ID, EditIdeaActivity.INVALID_ID);
-        if (id == EditIdeaActivity.INVALID_ID) {
-            Toast.makeText(getActivity(), "Could not delete the idea. Something went wrong.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Idea idea = new Idea(null, null);
-        idea.setId(id);
-        ideaViewModel.delete(idea);
-        Toast.makeText(getActivity(), "Idea deleted", Toast.LENGTH_SHORT).show();
     }
 }

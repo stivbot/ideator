@@ -14,7 +14,7 @@ import java.util.List;
 public interface IdeaDao {
 
     @Insert
-    void insert(Idea idea);
+    long insert(Idea idea);
 
     @Update
     void update(Idea idea);
@@ -25,4 +25,7 @@ public interface IdeaDao {
     @Transaction
     @Query("Select * FROM idea_table")
     LiveData<List<IdeaWithSections>> getAll();
+
+    @Query("Select * FROM idea_table WHERE id = :id")
+    LiveData<IdeaWithSections> get(long id);
 }
