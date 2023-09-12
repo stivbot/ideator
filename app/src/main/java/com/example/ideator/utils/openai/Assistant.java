@@ -53,9 +53,7 @@ public class Assistant {
         });
     }
 
-    protected void answer(String message, Function function, final OnResponse<FunctionCall> onResponse) {
-        conversation.addUserMessage(message);
-
+    protected void answer(Function function, final OnResponse<FunctionCall> onResponse) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 

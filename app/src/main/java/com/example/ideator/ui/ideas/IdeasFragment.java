@@ -135,10 +135,6 @@ public class IdeasFragment extends Fragment {
     }
 
     private void editIdea(String title, String description, String problematic, String solution) {
-        System.out.println(title);
-        System.out.println(description);
-        System.out.println(problematic);
-        System.out.println(solution);
         Intent intent = new Intent(getActivity(), EditIdeaActivity.class);
         intent.putExtra(EditIdeaActivity.EXTRA_TITLE, title);
         intent.putExtra(EditIdeaActivity.EXTRA_DESCRIPTION, description);

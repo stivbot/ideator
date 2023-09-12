@@ -28,7 +28,17 @@ public class OpenAi {
     }
 
     protected void chat(Conversation conversation) {
-        this.chat(conversation, null);
+        ChatCompletionRequest request = ChatCompletionRequest.builder()
+                .model(MODEL)
+                .maxTokens(MAX_TOKENS)
+                .temperature(TEMPERATURE)
+                .messages(conversation)
+                .build();
+
+        client.chatCompletion(request)
+                .onResponse(this.onSuccess)
+                .onError(this.onError)
+                .execute();
     }
 
     protected void chat(Conversation conversation, Function function) {
