@@ -29,13 +29,8 @@ import com.example.ideator.ui.ideas.IdeasAdapter;
 import com.example.ideator.ui.ideas.IdeasViewModel;
 
 public class EditIdeaActivity extends AppCompatActivity {
-    public static final int RESULT_DELETE = 1;
     public static final long INVALID_ID = -1;
     public static final String EXTRA_ID = "com.example.ideator.ui.edit_idea.EXTRA_ID";
-    public static final String EXTRA_TITLE = "com.example.ideator.ui.edit_idea.EXTRA_TITLE";
-    public static final String EXTRA_DESCRIPTION = "com.example.ideator.ui.edit_idea.EXTRA_DESCRIPTION";
-    public static final String EXTRA_PROBLEMATIC = "com.example.ideator.ui.edit_idea.EXTRA_PROBLEMATIC";
-    public static final String EXTRA_SOLUTION = "com.example.ideator.ui.edit_idea.EXTRA_SOLUTION";
 
     private EditText titleText;
     private EditText descriptionText;
@@ -81,6 +76,7 @@ public class EditIdeaActivity extends AppCompatActivity {
             }
         });
 
+        //TODO load idea title and make in editable
         setTitle("Edit idea");
     }
 
@@ -116,7 +112,7 @@ public class EditIdeaActivity extends AppCompatActivity {
             editIdeaViewModel.update(idea);
             setResult(RESULT_OK);
             finish();
-            Toast.makeText(this, "Idea saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.saved_idea, Toast.LENGTH_SHORT).show();
             return true;
         }
     }
@@ -124,13 +120,13 @@ public class EditIdeaActivity extends AppCompatActivity {
     private void confirmDeleteIdea() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle("Delete");
-        builder.setMessage("Are you sure you want to delete the idea? This action cannot be reversed!");
-        builder.setPositiveButton("Confirm", (dialog, which) -> {
+        builder.setTitle(R.string.delete_idea);
+        builder.setMessage(R.string.delete_idea_confirm);
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
             editIdeaViewModel.delete(idea.idea);
             setResult(RESULT_OK);
             finish();
-            Toast.makeText(this, "Idea deleted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.deleted_idea, Toast.LENGTH_SHORT).show();
         });
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
             //Nothing to do

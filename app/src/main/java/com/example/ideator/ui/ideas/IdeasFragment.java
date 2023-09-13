@@ -81,12 +81,12 @@ public class IdeasFragment extends Fragment {
             public void onClick(View view) {
                 final EditText descriptionText = new EditText(getActivity());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("New idea");
-                builder.setMessage("Describe your idea in a short sentence");
+                builder.setTitle(R.string.new_idea);
+                builder.setMessage(R.string.new_idea_instruction);
                 builder.setView(descriptionText);
-                builder.setPositiveButton("Create", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
+                builder.setPositiveButton(R.string.create_idea, (DialogInterface.OnClickListener) (dialog, whichButton) -> {
                     ProgressDialog progressDialog = new ProgressDialog(context);
-                    progressDialog.setMessage("Enhancing your business idea...");
+                    progressDialog.setMessage(getContext().getText(R.string.create_idea_loading));
                     progressDialog.setCancelable(false);
                     progressDialog.setInverseBackgroundForced(false);
 
@@ -109,7 +109,7 @@ public class IdeasFragment extends Fragment {
                             public void onError(Throwable error) {
                                 error.printStackTrace();
                                 Toast.makeText(getActivity(),
-                                        "Something went wrong. Are you connected to the internet?",
+                                        R.string.error_offline,
                                         Toast.LENGTH_LONG).show();
 
                                 progressDialog.hide();
@@ -120,9 +120,6 @@ public class IdeasFragment extends Fragment {
                             }
                         });
                     progressDialog.show();
-                });
-                builder.setNegativeButton("Cancel", (DialogInterface.OnClickListener) (dialog, whichButton) -> {
-                    //Nothing to do
                 });
                 builder.create().show();
             }
@@ -149,7 +146,7 @@ public class IdeasFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode != RESULT_OK) {
-            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
         }
     }
 }
