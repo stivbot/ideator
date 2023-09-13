@@ -18,8 +18,8 @@ public class EditIdeaViewModel extends AndroidViewModel {
         repository = new IdeaRepository(application);
     }
 
-    public void update(Idea idea) {
-        repository.update(idea);
+    public void update(IdeaWithSections ideaWithSections) {
+        repository.update(ideaWithSections);
     }
 
     public void delete(Idea idea) {

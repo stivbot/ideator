@@ -24,6 +24,9 @@ public interface IdeaDao {
     @Update
     void update(Idea idea);
 
+    @Update
+    void update(List<Section> sections);
+
     @Delete
     void delete(Idea idea);
 

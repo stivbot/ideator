@@ -13,13 +13,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ideator.R;
+import com.example.ideator.databinding.FragmentSectionBinding;
 import com.example.ideator.model.idea.IdeaWithSections;
 import com.example.ideator.ui.ideas.IdeasAdapter;
 import com.example.ideator.ui.ideas.IdeasViewModel;
@@ -38,6 +42,8 @@ public class EditIdeaActivity extends AppCompatActivity {
     private EditIdeaViewModel editIdeaViewModel;
 
     private IdeaWithSections idea;
+    private RecyclerView recyclerView;
+    private SectionsAdapter sectionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +55,11 @@ public class EditIdeaActivity extends AppCompatActivity {
         descriptionText = findViewById(R.id.edit_idea_description);
 
         //Set the adapter
-        RecyclerView recyclerView = findViewById(R.id.list_sections);
+        recyclerView = findViewById(R.id.list_sections);
         Context context = recyclerView.getContext();
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
-        SectionsAdapter sectionAdapter = new SectionsAdapter();
+        sectionAdapter = new SectionsAdapter();
         recyclerView.setAdapter(sectionAdapter);
 
         //Set the view model
@@ -76,8 +82,6 @@ public class EditIdeaActivity extends AppCompatActivity {
         });
 
         setTitle("Edit idea");
-
-        //TODO add sectionAdapter.setOnItemClickListener
     }
 
     @Override
@@ -96,8 +100,20 @@ public class EditIdeaActivity extends AppCompatActivity {
         else {
             idea.idea.setTitle(titleText.getText().toString());
             idea.idea.setDescription(descriptionText.getText().toString());
-            //TODO update sections
-            editIdeaViewModel.update(idea.idea);
+
+            //Use onFocusChanged in adapter instead ? TODO
+            for (int i=0; i<sectionAdapter.getItemCount(); i++) {
+                View sectionView = recyclerView.getLayoutManager().findViewByPosition(i);
+                if (sectionView != null) {
+                    String title = ((TextView) sectionView.findViewById(R.id.section_name)).getText().toString();
+                    String description = ((TextView) sectionView.findViewById(R.id.section_description)).getText().toString();
+
+                    idea.sections.get(i).setTitle(title);
+                    idea.sections.get(i).setDescription(description);
+                }
+            }
+
+            editIdeaViewModel.update(idea);
             setResult(RESULT_OK);
             finish();
             Toast.makeText(this, "Idea saved", Toast.LENGTH_SHORT).show();

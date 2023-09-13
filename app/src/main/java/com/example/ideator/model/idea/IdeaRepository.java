@@ -39,7 +39,6 @@ public class IdeaRepository {
     public void insert(IdeaWithSections ideaWithSections, OnInsertResponse onResponce) {
         executor.execute(() -> {
             long id = ideaDao.insert(ideaWithSections.idea);
-
             for (Section section:ideaWithSections.sections) {
                 section.setIdeaId(id);
             }
@@ -56,6 +55,16 @@ public class IdeaRepository {
     public void update(Idea idea) {
         executor.execute(() -> {
             ideaDao.update(idea);
+        });
+    }
+
+    public void update(IdeaWithSections ideaWithSections) {
+        executor.execute(() -> {
+            ideaDao.update(ideaWithSections.idea);
+            for (Section section:ideaWithSections.sections) {
+                section.setIdeaId(ideaWithSections.idea.getId());
+            }
+            ideaDao.update(ideaWithSections.sections);
         });
     }
 
