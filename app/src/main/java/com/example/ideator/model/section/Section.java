@@ -10,6 +10,17 @@ import com.example.ideator.model.idea.Idea;
 @Entity(tableName = "section_table")
 public class Section {
 
+    public static String TITLE_PROBLEMATIC = "Problematic";
+    public static String TITLE_SOLUTION = "Solution";
+
+    public static Section createProblematic(String description) {
+        return new Section(TITLE_PROBLEMATIC, description);
+    }
+
+    public static Section createSolution(String description) {
+        return new Section(TITLE_SOLUTION, description);
+    }
+
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;

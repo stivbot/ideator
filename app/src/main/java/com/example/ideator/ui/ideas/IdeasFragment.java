@@ -98,9 +98,8 @@ public class IdeasFragment extends Fragment {
                             public void onSuccess(String title, String description, String problematic, String solution) {
                                 progressDialog.hide();
                                 IdeaWithSections ideaWithSections = new IdeaWithSections(new Idea(title, description));
-                                //TODO use static method to create Problematic and Solution sections
-                                ideaWithSections.sections.add(new Section("Problematic", problematic));
-                                ideaWithSections.sections.add(new Section("Solution", solution));
+                                ideaWithSections.sections.add(Section.createProblematic(problematic));
+                                ideaWithSections.sections.add(Section.createSolution(solution));
                                 ideaViewModel.insert(ideaWithSections, id -> {
                                     openEditIdeaActivity(id);
                                 });
