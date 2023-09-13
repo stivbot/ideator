@@ -26,6 +26,10 @@ public class IdeasViewModel extends AndroidViewModel {
         repository.insert(idea, onResponse);
     }
 
+    public void insert(IdeaWithSections ideaWithSections, IdeaRepository.OnInsertResponse onResponse) {
+        repository.insert(ideaWithSections, onResponse);
+    }
+
     public void update(Idea idea) {
         repository.update(idea);
     }

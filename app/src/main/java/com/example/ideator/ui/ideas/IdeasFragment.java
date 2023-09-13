@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.ideator.R;
 import com.example.ideator.model.idea.Idea;
 import com.example.ideator.model.idea.IdeaWithSections;
+import com.example.ideator.model.section.Section;
 import com.example.ideator.ui.edit_idea.EditIdeaActivity;
 import com.example.ideator.utils.openai.BusinessPlanningAssistant;
 
@@ -96,8 +97,11 @@ public class IdeasFragment extends Fragment {
                             @Override
                             public void onSuccess(String title, String description, String problematic, String solution) {
                                 progressDialog.hide();
-                                Idea idea = new Idea(title, description);
-                                ideaViewModel.insert(idea, id -> {
+                                IdeaWithSections ideaWithSections = new IdeaWithSections(new Idea(title, description));
+                                //TODO use static method to create Problematic and Solution sections
+                                ideaWithSections.sections.add(new Section("Problematic", problematic));
+                                ideaWithSections.sections.add(new Section("Solution", solution));
+                                ideaViewModel.insert(ideaWithSections, id -> {
                                     openEditIdeaActivity(id);
                                 });
                             }

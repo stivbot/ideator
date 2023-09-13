@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.ideator.R;
 import com.example.ideator.model.idea.IdeaWithSections;
+import com.example.ideator.ui.ideas.IdeasAdapter;
 import com.example.ideator.ui.ideas.IdeasViewModel;
 
 public class EditIdeaActivity extends AppCompatActivity {
@@ -44,7 +48,13 @@ public class EditIdeaActivity extends AppCompatActivity {
         titleText = findViewById(R.id.edit_idea_title);
         descriptionText = findViewById(R.id.edit_idea_description);
 
-        //Set the adapter TODO
+        //Set the adapter
+        RecyclerView recyclerView = findViewById(R.id.list_sections);
+        Context context = recyclerView.getContext();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setHasFixedSize(true);
+        SectionsAdapter sectionAdapter = new SectionsAdapter();
+        recyclerView.setAdapter(sectionAdapter);
 
         //Set the view model
         Intent intent = getIntent();
@@ -61,11 +71,13 @@ public class EditIdeaActivity extends AppCompatActivity {
                 descriptionText.setText(idea.idea.getDescription());
 
                 //Set sections
-                //sectionAdapter.setSections(idea.sections); TODO
+                sectionAdapter.setSections(idea.sections);
             }
         });
 
         setTitle("Edit idea");
+
+        //TODO add sectionAdapter.setOnItemClickListener
     }
 
     @Override
@@ -84,6 +96,7 @@ public class EditIdeaActivity extends AppCompatActivity {
         else {
             idea.idea.setTitle(titleText.getText().toString());
             idea.idea.setDescription(descriptionText.getText().toString());
+            //TODO update sections
             editIdeaViewModel.update(idea.idea);
             setResult(RESULT_OK);
             finish();

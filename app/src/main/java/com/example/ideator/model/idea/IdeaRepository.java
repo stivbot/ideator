@@ -6,6 +6,8 @@ import android.os.Looper;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.ideator.model.section.Section;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -26,6 +28,23 @@ public class IdeaRepository {
     public void insert(Idea idea, OnInsertResponse onResponce) {
         executor.execute(() -> {
             long id = ideaDao.insert(idea);
+            handler.post(() -> {
+                if (onResponce != null) {
+                    onResponce.onInsert(id);
+                }
+            });
+        });
+    }
+
+    public void insert(IdeaWithSections ideaWithSections, OnInsertResponse onResponce) {
+        executor.execute(() -> {
+            long id = ideaDao.insert(ideaWithSections.idea);
+
+            for (Section section:ideaWithSections.sections) {
+                section.setIdeaId(id);
+            }
+            ideaDao.insert(ideaWithSections.sections);
+
             handler.post(() -> {
                 if (onResponce != null) {
                     onResponce.onInsert(id);

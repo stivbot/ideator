@@ -15,7 +15,7 @@ public class Section {
     private String title;
     private String description;
     @ColumnInfo(name = "idea_id")
-    private int ideaId;
+    private long ideaId;
 
     public Section(String title, String description) {
         this.title = title;
@@ -46,11 +46,11 @@ public class Section {
         this.description = description;
     }
 
-    public int getIdeaId() {
+    public long getIdeaId() {
         return ideaId;
     }
 
-    public void setIdeaId(int ideaId) {
+    public void setIdeaId(long ideaId) {
         this.ideaId = ideaId;
     }
 }
