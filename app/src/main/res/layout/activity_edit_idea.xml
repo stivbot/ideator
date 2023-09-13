@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/text_margin"
     tools:context=".ui.edit_idea.EditIdeaActivity">
 
     <EditText
@@ -13,20 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Title"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textStyle="bold"
+        android:background="@null"
+        android:paddingBottom="@dimen/text_margin"
+        android:textSize="@dimen/title_ideas_text_size" />
 
     <EditText
         android:id="@+id/edit_idea_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:background="@null"
+        android:paddingBottom="@dimen/text_margin"
+        android:textSize="@dimen/description_text_size"
+        android:justificationMode="inter_word" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_sections"
         android:name="com.example.ideator.ui.edit_idea.EditIdeaActivity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="LinearLayoutManager"
         tools:context=".ui.edit_idea.EditIdeaActivity"
         tools:listitem="@layout/fragment_section" />

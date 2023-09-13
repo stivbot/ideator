@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ideator.databinding.FragmentItemBinding;
+import com.example.ideator.databinding.FragmentSectionBinding;
 import com.example.ideator.model.section.Section;
 
 import java.util.ArrayList;
@@ -16,18 +16,18 @@ import java.util.List;
 public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.ViewHolder> {
 
     private List<Section> sections = new ArrayList<Section>();
-    private OnItemClickListener listener;
+    private OnSectionClickListener listener;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(FragmentSectionBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Section section = sections.get(position);
-        holder.itemName.setText(section.getTitle());
-        holder.itemDescription.setText(section.getDescription());
+        holder.sectionName.setText(section.getTitle());
+        holder.sectionDescription.setText(section.getDescription());
     }
 
     @Override
@@ -41,31 +41,31 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView itemName;
-        public final TextView itemDescription;
+        public final TextView sectionName;
+        public final TextView sectionDescription;
 
-        public ViewHolder(FragmentItemBinding binding) {
+        public ViewHolder(FragmentSectionBinding binding) {
             super(binding.getRoot());
-            itemName = binding.itemName;
-            itemDescription = binding.itemDescription;
+            sectionName = binding.sectionName;
+            sectionDescription = binding.sectionDescription;
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(sections.get(position));
+                        listener.onSectionClick(sections.get(position));
                     }
                 }
             });
         }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(Section section);
+    public interface OnSectionClickListener {
+        void onSectionClick(Section section);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnSectionClickListener(OnSectionClickListener listener) {
         this.listener = listener;
     }
 }

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginTop="@dimen/text_margin"
+    android:layout_marginBottom="@dimen/text_margin"
     android:background="@color/white">
 
     <TextView
@@ -15,6 +15,7 @@
         android:layout_marginEnd="@dimen/text_margin"
         android:layout_marginBottom="@dimen/text_margin"
         android:textStyle="bold"
+        android:textSize="@dimen/title_section_text_size"
         android:text="This is a simple title"
         android:textAppearance="?attr/textAppearanceListItem" />
 
@@ -26,7 +27,9 @@
         android:layout_marginStart="@dimen/text_margin"
         android:layout_marginEnd="@dimen/text_margin"
         android:layout_marginBottom="@dimen/text_margin"
+        android:textSize="@dimen/description_text_size"
         android:text="This is a really really long description. The objective is to check the list behavious with a long text."
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:justificationMode="inter_word" />
 
 </RelativeLayout>
