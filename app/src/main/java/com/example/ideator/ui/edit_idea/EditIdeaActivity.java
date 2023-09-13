@@ -109,7 +109,7 @@ public class EditIdeaActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Delete");
-        builder.setMessage("Are you sure you when to delete the idea? This action cannot be reversed!");
+        builder.setMessage("Are you sure you want to delete the idea? This action cannot be reversed!");
         builder.setPositiveButton("Confirm", (dialog, which) -> {
             editIdeaViewModel.delete(idea.idea);
             setResult(RESULT_OK);
