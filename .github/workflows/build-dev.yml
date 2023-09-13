@@ -1,7 +1,7 @@
-name: Minimal Android CI Workflow
+name: Publish Prerelease APK
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   push:
     branches:
       - dev
