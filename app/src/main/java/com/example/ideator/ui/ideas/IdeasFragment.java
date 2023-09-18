@@ -107,12 +107,12 @@ public class IdeasFragment extends Fragment {
 
                             @Override
                             public void onError(Throwable error) {
+                                progressDialog.hide();
                                 error.printStackTrace();
                                 Toast.makeText(getActivity(),
                                         R.string.error_offline,
                                         Toast.LENGTH_LONG).show();
 
-                                progressDialog.hide();
                                 Idea idea = new Idea(descriptionText.getText().toString());
                                 ideaViewModel.insert(idea, id -> {
                                     openEditIdeaActivity(id);

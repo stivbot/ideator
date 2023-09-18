@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
+import androidx.room.Upsert;
 
 import com.example.ideator.model.section.Section;
 
@@ -24,7 +25,7 @@ public interface IdeaDao {
     @Update
     void update(Idea idea);
 
-    @Update
+    @Upsert
     void update(List<Section> sections);
 
     @Delete

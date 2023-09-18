@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,10 +26,13 @@ import android.widget.Toast;
 
 import com.example.ideator.R;
 import com.example.ideator.databinding.FragmentSectionBinding;
+import com.example.ideator.model.idea.Idea;
 import com.example.ideator.model.idea.IdeaRepository;
 import com.example.ideator.model.idea.IdeaWithSections;
+import com.example.ideator.model.section.Section;
 import com.example.ideator.ui.ideas.IdeasAdapter;
 import com.example.ideator.ui.ideas.IdeasViewModel;
+import com.example.ideator.utils.openai.BusinessPlanningAssistant;
 
 public class EditIdeaActivity extends AppCompatActivity {
     public static final long INVALID_ID = -1;
@@ -62,9 +66,36 @@ public class EditIdeaActivity extends AppCompatActivity {
         //Set the adapter
         Button nextButton = findViewById(R.id.button_next_idea);
         nextButton.setOnClickListener(v -> {
+            ProgressDialog progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(this.getText(R.string.create_idea_loading));
+            progressDialog.setCancelable(false);
+            progressDialog.setInverseBackgroundForced(false);
+
             saveIdea(() -> {
-                //TODO call openai
+                new BusinessPlanningAssistant().getProsCons(
+                   this,
+                    idea,
+                    new BusinessPlanningAssistant.OnProsConsResponse() {
+                        @Override
+                        public void onSuccess(String pros, String cons) {
+                            progressDialog.hide();
+                            idea.sections.add(Section.createPros(pros));
+                            idea.sections.add(Section.createCons(cons));
+                            //TODO sections not added to the idea, use onCreateView instead ?
+                            editIdeaViewModel.update(idea, null);
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            progressDialog.hide();
+                            error.printStackTrace();
+                            Toast.makeText(EditIdeaActivity.this,
+                                R.string.error_offline,
+                                Toast.LENGTH_LONG).show();
+                        }
+                    });
             });
+            progressDialog.show();
         });
 
         //Set the view model

@@ -12,6 +12,8 @@ public class Section {
 
     public static String TITLE_PROBLEMATIC = "Problematic";
     public static String TITLE_SOLUTION = "Solution";
+    public static String TITLE_PROS = "Pros";
+    public static String TITLE_CONS = "Cons";
 
     public static Section createProblematic(String description) {
         return new Section(TITLE_PROBLEMATIC, description);
@@ -19,6 +21,14 @@ public class Section {
 
     public static Section createSolution(String description) {
         return new Section(TITLE_SOLUTION, description);
+    }
+
+    public static Section createPros(String description) {
+        return new Section(TITLE_PROS, description);
+    }
+
+    public static Section createCons(String description) {
+        return new Section(TITLE_CONS, description);
     }
 
     @PrimaryKey(autoGenerate = true)
