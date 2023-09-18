@@ -31,7 +31,7 @@ public class IdeasViewModel extends AndroidViewModel {
     }
 
     public void update(Idea idea) {
-        repository.update(idea);
+        repository.update(idea, null);
     }
 
     public void delete(Idea idea) {

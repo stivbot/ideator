@@ -13,13 +13,14 @@
 
     <string name="empty_ideas">You do not have ideas yet. Click the "+" button to create your first idea.</string>
 
+    <string name="button_next">Next</string>
 
     <string name="new_idea">New idea</string>
     <string name="new_idea_instruction">Describe your idea in a short sentence</string>
     <string name="create_idea">Create</string>
     <string name="create_idea_loading">Enhancing your business idea...</string>
 
-    <string name="saved_idea">Idea deleted</string>
+    <string name="saved_idea">Idea saved</string>
 
     <string name="delete_idea">Delete</string>
     <string name="delete_idea_confirm">You are about to definitely delete your idea. This action cannot be reversed!</string>

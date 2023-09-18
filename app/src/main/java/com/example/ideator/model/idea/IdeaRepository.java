@@ -28,11 +28,12 @@ public class IdeaRepository {
     public void insert(Idea idea, OnInsertResponse onResponce) {
         executor.execute(() -> {
             long id = ideaDao.insert(idea);
-            handler.post(() -> {
-                if (onResponce != null) {
+
+            if (onResponce != null) {
+                handler.post(() -> {
                     onResponce.onInsert(id);
-                }
-            });
+                });
+            }
         });
     }
 
@@ -44,27 +45,39 @@ public class IdeaRepository {
             }
             ideaDao.insert(ideaWithSections.sections);
 
-            handler.post(() -> {
-                if (onResponce != null) {
+            if (onResponce != null) {
+                handler.post(() -> {
                     onResponce.onInsert(id);
-                }
-            });
+                });
+            }
         });
     }
 
-    public void update(Idea idea) {
+    public void update(Idea idea, OnUpdateResponse onResponce) {
         executor.execute(() -> {
             ideaDao.update(idea);
+
+            if (onResponce != null) {
+                handler.post(() -> {
+                    onResponce.onUpdate();
+                });
+            }
         });
     }
 
-    public void update(IdeaWithSections ideaWithSections) {
+    public void update(IdeaWithSections ideaWithSections, OnUpdateResponse onResponce) {
         executor.execute(() -> {
             ideaDao.update(ideaWithSections.idea);
             for (Section section:ideaWithSections.sections) {
                 section.setIdeaId(ideaWithSections.idea.getId());
             }
             ideaDao.update(ideaWithSections.sections);
+
+            if (onResponce != null) {
+                handler.post(() -> {
+                    onResponce.onUpdate();
+                });
+            }
         });
     }
 
@@ -84,5 +97,9 @@ public class IdeaRepository {
 
     public interface OnInsertResponse {
         void onInsert(long id);
+    }
+
+    public interface OnUpdateResponse {
+        void onUpdate();
     }
 }

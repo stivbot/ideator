@@ -18,12 +18,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ideator.R;
 import com.example.ideator.databinding.FragmentSectionBinding;
+import com.example.ideator.model.idea.IdeaRepository;
 import com.example.ideator.model.idea.IdeaWithSections;
 import com.example.ideator.ui.ideas.IdeasAdapter;
 import com.example.ideator.ui.ideas.IdeasViewModel;
@@ -56,6 +58,14 @@ public class EditIdeaActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         sectionAdapter = new SectionsAdapter();
         recyclerView.setAdapter(sectionAdapter);
+
+        //Set the adapter
+        Button nextButton = findViewById(R.id.button_next_idea);
+        nextButton.setOnClickListener(v -> {
+            saveIdea(() -> {
+                //TODO call openai
+            });
+        });
 
         //Set the view model
         Intent intent = getIntent();
@@ -90,26 +100,11 @@ public class EditIdeaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_idea_button) {
-            confirmDeleteIdea();
+            deleteIdea();
             return true;
         }
         else {
-            idea.idea.setTitle(titleText.getText().toString());
-            idea.idea.setDescription(descriptionText.getText().toString());
-
-            //Use onFocusChanged in adapter instead ? TODO
-            for (int i=0; i<sectionAdapter.getItemCount(); i++) {
-                View sectionView = recyclerView.getLayoutManager().findViewByPosition(i);
-                if (sectionView != null) {
-                    String title = ((TextView) sectionView.findViewById(R.id.section_name)).getText().toString();
-                    String description = ((TextView) sectionView.findViewById(R.id.section_description)).getText().toString();
-
-                    idea.sections.get(i).setTitle(title);
-                    idea.sections.get(i).setDescription(description);
-                }
-            }
-
-            editIdeaViewModel.update(idea);
+            saveIdea(null);
             setResult(RESULT_OK);
             finish();
             Toast.makeText(this, R.string.saved_idea, Toast.LENGTH_SHORT).show();
@@ -117,7 +112,7 @@ public class EditIdeaActivity extends AppCompatActivity {
         }
     }
 
-    private void confirmDeleteIdea() {
+    private void deleteIdea() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(R.string.delete_idea);
@@ -132,5 +127,24 @@ public class EditIdeaActivity extends AppCompatActivity {
             //Nothing to do
         });
         builder.create().show();
+    }
+
+    private void saveIdea(IdeaRepository.OnUpdateResponse onResponse) {
+        idea.idea.setTitle(titleText.getText().toString());
+        idea.idea.setDescription(descriptionText.getText().toString());
+
+        //Use onFocusChanged in adapter instead ? TODO
+        for (int i=0; i<sectionAdapter.getItemCount(); i++) {
+            View sectionView = recyclerView.getLayoutManager().findViewByPosition(i);
+            if (sectionView != null) {
+                String title = ((TextView) sectionView.findViewById(R.id.section_name)).getText().toString();
+                String description = ((TextView) sectionView.findViewById(R.id.section_description)).getText().toString();
+
+                idea.sections.get(i).setTitle(title);
+                idea.sections.get(i).setDescription(description);
+            }
+        }
+
+        editIdeaViewModel.update(idea, onResponse);
     }
 }
