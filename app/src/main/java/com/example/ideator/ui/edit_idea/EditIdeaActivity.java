@@ -78,7 +78,7 @@ public class EditIdeaActivity extends AppCompatActivity {
                     new BusinessPlanningAssistant.OnProsConsResponse() {
                         @Override
                         public void onSuccess(String pros, String cons) {
-                            progressDialog.hide();
+                            progressDialog.dismiss();
                             idea.sections.add(Section.createPros(pros));
                             idea.sections.add(Section.createCons(cons));
                             //TODO sections not added to the idea, use onCreateView instead ?
@@ -87,7 +87,7 @@ public class EditIdeaActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable error) {
-                            progressDialog.hide();
+                            progressDialog.dismiss();
                             error.printStackTrace();
                             Toast.makeText(EditIdeaActivity.this,
                                 R.string.error_offline,

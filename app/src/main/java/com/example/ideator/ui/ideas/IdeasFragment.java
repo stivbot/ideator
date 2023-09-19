@@ -96,7 +96,7 @@ public class IdeasFragment extends Fragment {
                         new BusinessPlanningAssistant.OnResponse() {
                             @Override
                             public void onSuccess(String title, String description, String problematic, String solution) {
-                                progressDialog.hide();
+                                progressDialog.dismiss();
                                 IdeaWithSections ideaWithSections = new IdeaWithSections(new Idea(title, description));
                                 ideaWithSections.sections.add(Section.createProblematic(problematic));
                                 ideaWithSections.sections.add(Section.createSolution(solution));
@@ -107,7 +107,7 @@ public class IdeasFragment extends Fragment {
 
                             @Override
                             public void onError(Throwable error) {
-                                progressDialog.hide();
+                                progressDialog.dismiss();
                                 error.printStackTrace();
                                 Toast.makeText(getActivity(),
                                         R.string.error_offline,
