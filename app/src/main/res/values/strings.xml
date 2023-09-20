@@ -9,7 +9,7 @@
 
     <string name="menu_ideas">Ideas</string>
     <string name="menu_profile">Profile</string>
-    <string name="menu_about">About</string>
+    <string name="menu_feedback">Feedback</string>
 
     <string name="empty_ideas">You do not have ideas yet. Click the "+" button to create your first idea.</string>
 

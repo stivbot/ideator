@@ -1,4 +1,4 @@
-package com.example.ideator.ui.about;
+package com.example.ideator.ui.feedback;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ideator.databinding.FragmentAboutBinding;
+import com.example.ideator.databinding.FragmentFeedbackBinding;
 
-public class AboutFragment extends Fragment {
+public class FeedbackFragment extends Fragment {
 
-    private FragmentAboutBinding binding;
+    private FragmentFeedbackBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AboutViewModel aboutViewModel =
-                new ViewModelProvider(this).get(AboutViewModel.class);
+        FeedbackViewModel feedbackViewModel =
+                new ViewModelProvider(this).get(FeedbackViewModel.class);
 
-        binding = FragmentAboutBinding.inflate(inflater, container, false);
+        binding = FragmentFeedbackBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textAbout;
-        aboutViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textFeedback;
+        feedbackViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

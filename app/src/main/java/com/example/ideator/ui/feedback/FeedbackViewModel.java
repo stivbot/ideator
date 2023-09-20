@@ -1,14 +1,14 @@
-package com.example.ideator.ui.about;
+package com.example.ideator.ui.feedback;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AboutViewModel extends ViewModel {
+public class FeedbackViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public AboutViewModel() {
+    public FeedbackViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("More information about us soon");
     }
