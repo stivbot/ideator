@@ -10,7 +10,7 @@ public class ProfileViewModel extends ViewModel {
 
     public ProfileViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Your profile will soon be visible here");
+        mText.setValue("Your profile will soon be visible here. It will be visible by incubators in order to know more about you.");
     }
 
     public LiveData<String> getText() {
