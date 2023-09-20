@@ -5,12 +5,12 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - '**/*.java'
+    tags:
+      - 'v*'
 
 jobs:
-  test:
-    name: Run Unit Tests
+  apk:
+    name: Build APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,21 +27,6 @@ jobs:
       - name: Run Tests
         run: bash ./gradlew test --stacktrace
 
-  apk:
-    name: Generate APK
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Create local.properties
-        run: touch local.properties
-
-      - name: Setup JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
       - name: Build APK
         run: bash ./gradlew assembleDebug --stacktrace
 
@@ -54,7 +39,6 @@ jobs:
   release:
     name: Release APK
     needs: apk
-    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: Download APK from build
