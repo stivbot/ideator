@@ -49,11 +49,8 @@ jobs:
         run: mv apk/app-debug.apk apk/Ideator.apk
 
       - name: Create release
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@latest
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{ github.ref }}
           prerelease: true
-          title: Pre-Release ${{ env.VERSION }}
           files: |
             ./apk/Ideator.apk
