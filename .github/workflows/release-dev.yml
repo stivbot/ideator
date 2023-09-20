@@ -49,7 +49,7 @@ jobs:
         run: mv apk/app-debug.apk apk/Ideator.apk
 
       - name: Create release
-        uses: softprops/action-gh-release@latest
+        uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           files: |
