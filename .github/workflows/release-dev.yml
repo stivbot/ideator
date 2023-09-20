@@ -44,23 +44,15 @@ jobs:
         with:
           name: apk
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          prerelease: true
+      - name: Rename apk
+        run: mv apk/app-debug.apk apk/Ideator.apk
 
-      - name: Upload Release APK
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: apk/app-debug.apk
-          asset_name: Ideator.apk
-          asset_content_type: application/zip
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: ${{ github.ref }} }}
+          prerelease: true
+          title: Pre-Release ${{ env.VERSION }}
+          files: |
+            ./apk/Ideator.apk
