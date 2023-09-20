@@ -6,6 +6,12 @@
     app:startDestination="@+id/nav_ideas">
 
     <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.example.ideator.ui.dashboard.DashboardFragment"
+        android:label="@string/menu_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
         android:id="@+id/nav_ideas"
         android:name="com.example.ideator.ui.ideas.IdeasFragment"
         android:label="@string/menu_ideas"
